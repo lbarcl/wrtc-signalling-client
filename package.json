@@ -1,8 +1,9 @@
 {
   "name": "wrtc-signalling-client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A WebRTC signalling client for my own signalling server",
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "dependencies": {
     "pusher-js": "^8.0.2",
     "tweetnacl": "^1.0.3"
@@ -25,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/lbarcl/wrtc-signalling-client/issues"
   },
-  "homepage": "https://github.com/lbarcl/wrtc-signalling-client#readme"
+  "homepage": "https://github.com/lbarcl/wrtc-signalling-client#readme",
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  }
 }
