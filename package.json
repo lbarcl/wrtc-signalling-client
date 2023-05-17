@@ -1,7 +1,7 @@
 {
   "name": "wrtc-signalling-client",
   "version": "1.0.1",
-  "description": "A WebRTC signalling client for my own signalling server",
+  "description": "A WebRTC signalling client for lbarcl/webrtc-signalling-server",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "dependencies": {
@@ -22,7 +22,7 @@
     "Client"
   ],
   "author": "lbarcl",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/lbarcl/wrtc-signalling-client/issues"
   },
