@@ -27,7 +27,7 @@ The `Signal` class represents a signaling client for WebRTC applications.
 ##### Constructor
 
 ```typescript
-const signal = new Signal();
+const signal = new Signal("<pusher key>", "<wrtc-signaling-server>", {"pusher": "options"});
 ```
 
 Creates a new instance of the `Signal` class.

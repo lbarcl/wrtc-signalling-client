@@ -1,19 +1,17 @@
-import Pusher, { Channel } from "pusher-js";
+import Pusher, { Channel, Options } from "pusher-js";
 import { EventEmitter } from "./eventemitter";
 
 class Signal extends EventEmitter {
   private pusher: Pusher;
   private channel: Channel | null = null;
-  private readonly signallingServer = "https://webrtc-signalling-server.lbarcl.repl.co";
+  private signallingServer: string;
   private socketId: string;
   roomId: string | null = null;
   
-  constructor() {
+  constructor(pusherKey: string, signalingServer: string, pusherOptions: Options) {
     super();
-    this.pusher = new Pusher("0992570237d9aef38843", {
-      cluster: "eu",
-      forceTLS: true
-    });
+    this.signallingServer = signalingServer;
+    this.pusher = new Pusher(pusherKey, pusherOptions);
     this.pusher.connect();
     this.socketId = this.pusher.connection.socket_id;
   }
