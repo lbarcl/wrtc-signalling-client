@@ -1,6 +1,6 @@
 {
   "name": "wrtc-signalling-client",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A WebRTC signalling client for lbarcl/webrtc-signalling-server",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -9,7 +9,7 @@
     "tweetnacl": "^1.0.3"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc"
   },
   "repository": {
     "type": "git",

@@ -8,18 +8,20 @@ class Signal extends EventEmitter {
   private socketId: string;
   roomId: string | null = null;
   
-  constructor(pusherKey: string, signalingServer: string, pusherOptions: Options) {
+  constructor(pusherKey: string, signallingServer: string, pusherOptions: Options) {
     super();
-    this.signallingServer = signalingServer;
+    this.signallingServer = signallingServer;
     this.pusher = new Pusher(pusherKey, pusherOptions);
     this.pusher.connect();
-    this.socketId = this.pusher.connection.socket_id;
+    this.pusher.bind("connected", () => {
+      this.socketId = this.pusher.connection.socket_id;
+    })
   }
 
   async createRoom(): Promise<string> {
     const response = await fetch(`${this.signallingServer}/rooms/create`, { method: "POST" });
     const id = await response.text();
-    this.subscribeToChannel(id);
+    this.joinRoom(id);
     return id;
   }
 
@@ -34,8 +36,8 @@ class Signal extends EventEmitter {
   }
 
   async getOffer(id: string): Promise<string> {
-    if (this.roomId) {
-      this.subscribeToChannel(id);
+    if (id) {
+      this.joinRoom(id);
       const response = await fetch(`${this.signallingServer}/rooms/${id}/offer`);
       return response.text();
     } else {
@@ -78,10 +80,9 @@ class Signal extends EventEmitter {
     }
   }
 
-  private subscribeToChannel(id: string) {
+  private joinRoom(id: string) {
     this.roomId = id;
     this.channel = this.pusher.subscribe(`cache-${id}`);
-    this.socketId = this.pusher.connection.socket_id;
     this.channel.bind("ice", (ice: any) => {
       this.emit("ice", ice);
     });

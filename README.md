@@ -36,19 +36,31 @@ Creates a new instance of the `Signal` class.
 
 Creates a new room and returns its ID as a promise.
 
+- Returns:
+  - `room ID`: The room ID of the new room.
+
 ##### `sendOffer(offer: string): Promise<string>`
 
-Sends an offer to the signaling server and returns a promise with the response.
+Sends an offer to the signaling server and returns a promise with the answer from to other peer.
+> `sendOffer()` will not resolve until the answer is sended.
+> Its a loong polling function.
 
 - Parameters:
   - `offer` (string): The offer data to send.
 
+- Returns:
+  - `SDP answer` (string): The answer sended by the other peer.
+
 ##### `getOffer(id: string): Promise<string>`
 
-Retrieves an offer from the signaling server based on the specified ID and returns it as a promise.
+Retrieves an offer from the signaling server based on the specified room ID and returns it as a promise.
+> Note that, `getOffer()` is loong polling function.
 
 - Parameters:
-  - `id` (string): The ID of the offer to retrieve.
+  - `id` (string): The ID of the room that offer sended.
+
+- Returns:
+  - `SDP offer` (string): The offer sended by the peer that want the connection.
 
 ##### `sendAnswer(answer: string): void`
 
@@ -59,14 +71,22 @@ Sends an answer to the signaling server.
 
 ##### `sendIce(ice: string): Promise<void>`
 
-Sends an ICE (Interactive Connectivity Establishment) candidate to the signaling server and returns a promise indicating success or failure.
+Sends an ICE (Interactive Connectivity Establishment) candidate to the signaling server.
 
 - Parameters:
   - `ice` (string): The ICE candidate data to send.
 
 ##### `closeRoom(): Promise<void>`
 
-Closes the current room and returns a promise indicating success or failure.
+Closes the current room and leaves the Pusher channel.
+
+##### `joinRoom(id: string): Promise<void>`
+
+Joins the room with given room id and connects to pusher channel.
+> You don't need to call `joinRoom()`. It automatically calls when `createRoom()` & `getOffer()` are called.
+
+- Parameters:
+  - `id` (string): The room Id to join.
 
 ##### Events
 
@@ -95,14 +115,14 @@ signal.createRoom()
   });
 
 signal.sendOffer('offer data')
-  .then((response) => {
-    console.log('Received response:', response);
+  .then((answer) => {
+    console.log('Received SDP answer:', asnwer);
   })
   .catch((error) => {
     console.error('Error sending offer:', error);
   });
 
-signal.getOffer('offerId')
+signal.getOffer('roomId')
   .then((offer) => {
     console.log('Retrieved offer:', offer);
   })
