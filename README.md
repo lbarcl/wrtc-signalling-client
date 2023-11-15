@@ -2,6 +2,9 @@
 
 The `wrtc-signalling-client` module is a TypeScript library designed for browser-side JavaScript. It provides a signaling client for WebRTC (Web Real-Time Communication) applications. This client handles the exchange of signaling messages between peers to establish and manage WebRTC connections.
 
+> Note: Just use this module with `npm` other package managers didn't work on me.
+> Feel free to contribute. 
+
 ## Description
 
 WebRTC enables real-time communication between browsers, allowing applications to establish peer-to-peer connections for audio, video, and data transfer. However, establishing these connections requires a signaling mechanism to exchange session control information between peers.

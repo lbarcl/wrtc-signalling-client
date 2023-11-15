@@ -1,5 +1,42 @@
 import Pusher, { Channel, Options } from "pusher-js";
-import { EventEmitter } from "./eventemitter";
+
+type Listener<T> = (data: T) => void;
+
+interface Event<T> {
+  name: string;
+  data: T;
+}
+
+class EventEmitter {
+  private listeners: { [eventName: string]: Listener<any>[] } = {};
+
+  public on<T>(eventName: string, listener: Listener<T>): void {
+    if (!this.listeners[eventName]) {
+      this.listeners[eventName] = [];
+    }
+    this.listeners[eventName].push(listener);
+  }
+
+  public off<T>(eventName: string, listener: Listener<T>): void {
+    if (this.listeners[eventName]) {
+      this.listeners[eventName] = this.listeners[eventName].filter(
+        (l) => l !== listener
+      );
+    }
+  }
+
+  public emit<T>(eventName: string, data: T): void {
+    const event: Event<T> = {
+      name: eventName,
+      data: data,
+    };
+    if (this.listeners[eventName]) {
+      this.listeners[eventName].forEach((listener) =>
+        listener(event as any)
+      );
+    }
+  }
+}
 
 class Signal extends EventEmitter {
   private pusher: Pusher;

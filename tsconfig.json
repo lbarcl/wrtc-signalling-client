@@ -8,6 +8,6 @@
     "outDir": "./dist",
     // other options...
   },
-  "include": ["src/**/*.ts"],
+  "include": ["index.ts"],
   "exclude": ["node_modules"]
 }
